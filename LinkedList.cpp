@@ -77,8 +77,10 @@ void LinkedList::insert(string location, int year, int month, double temperature
 
 	Node* tempCurr = new Node(location, year, month, temperature);
 
-	if (head == nullptr && tail == nullptr)
+	if (head == nullptr && tail == nullptr) {
 		head = tempCurr;
+		tail = tempCurr;
+	}
 }
 
 void LinkedList::clear() {
