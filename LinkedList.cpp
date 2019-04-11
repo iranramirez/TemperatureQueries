@@ -46,10 +46,7 @@ ostream& operator<<(ostream& os, const LinkedList& ll) {
 	return os;
 } */
 
-#include <iostream>
-#include <string>
 #include "LinkedList.h"
-#include "Node.h"
 using namespace std;
 
 LinkedList::LinkedList() {
@@ -60,6 +57,7 @@ LinkedList::LinkedList() {
 
 LinkedList::~LinkedList() {
 	// Implement this function
+	clear();
 }
 
 LinkedList::LinkedList(const LinkedList& source) {
@@ -75,21 +73,52 @@ LinkedList& LinkedList::operator=(const LinkedList& source) {
 void LinkedList::insert(string location, int year, int month, double temperature) {
 	// Implement this function
 
-	Node* tempCurr = new Node(location, year, month, temperature);
+	Node* curr = new Node(location, year, month, temperature);
+	Node* temp = head;
 
 	if (head == nullptr && tail == nullptr) {
-		head = tempCurr;
-		tail = tempCurr;
+		head = curr;
+		tail = curr;
+		return;
 	}
-}
+
+	// if less than temp less than curr, insert cu
+	else if (curr < temp) {
+
+
+	}
+	
+	//insert at head
+	else {
+
+
+	}
+
+	//while lop
+	
+
+
+}	
 
 void LinkedList::clear() {
 	// Implement this function
+	Node* temp;
+
+	while (head != nullptr) {
+
+		temp = head->next;
+		delete head;
+		head = temp;
+
+	}
+
+	head = nullptr;
+	tail = nullptr;
 }
 
 Node* LinkedList::getHead() const {
 	// Implement this function it will be used to help grade other functions
-	return new Node(); // Need fix... temp line
+	return head; 
 }
 
 string LinkedList::print() const {

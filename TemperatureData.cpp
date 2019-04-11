@@ -36,7 +36,20 @@ TemperatureData::~TemperatureData() {} // You should not need to implement this
 
 bool TemperatureData::operator<(const TemperatureData& b) {
 	// Implement this
-	return true;
+
+	if (this->id != b.id)
+		return this->id < b.id;
+
+	if (this->year != b.year)
+		return this->year < b.year;
+	
+	if (this->month != b.month)
+		return this->month < month;
+
+	if (this->temperature != b.temperature)
+		return this->temperature < b.temperature;
+
+	return false;
 }
 
 
