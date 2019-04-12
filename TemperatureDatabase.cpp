@@ -21,7 +21,6 @@ void TemperatureDatabase::performQuery(const string& filename) {
 #include "TemperatureData.h"
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 using namespace std;
 
@@ -46,37 +45,43 @@ void TemperatureDatabase::loadData(const string& filename) {
 
 	while (!dataFile.eof()) {
 
+		//Read everything as string and convert each one to specified data type
 		dataFile >> id;
 		dataFile >> year;
-		if (!dataFile.good()) {
+		if (dataFile.fail()) {
 			cout << "Error: Other invalid input" << endl;
+			dataFile.clear();
 			exit(1);
 		}
+	
 		dataFile >> month;
-		if (!dataFile.good()) {
+		if (dataFile.fail()) {
 			cout << "Error: Other invalid input" << endl;
+			dataFile.clear();
 			exit(1);
 		}
+
 		dataFile >> temperature;
-		if (!dataFile.good()) {
+		if (dataFile.fail()) {
 			cout << "Error: Other invalid input" << endl;
+			dataFile.clear();
 			exit(1);
 		}
 
-		if (temperature < -50 && temperature > 50) {
-			cout << "Invalid temperature " << temperature << endl;
-			exit(1);
+		if (temperature < -50 || temperature > 50) {
+			cout << "Error: Invalid temperature " << temperature << endl;
 		}
 
-		if (year > 2019) {
-			cout << "Invalid year " << year << endl;
-			exit(1);
+
+		if (year > 2018 || year < 1800) {
+			cout << "Error: Invalid year " << year << endl;
 		}
 
-		if (month <= 0) {
-			cout << "Invalid month " << month < endl;
-			exit(1);
+
+		if (month <= 0 || month > 12) {
+			cout << "Error: Invalid month " << month << endl;
 		}
+
 
 		records.insert(id, year, month, temperature);
 	}

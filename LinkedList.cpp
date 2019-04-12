@@ -46,7 +46,11 @@ ostream& operator<<(ostream& os, const LinkedList& ll) {
 	return os;
 } */
 
+#include <iostream>
+#include <string>
+#include <iomanip>
 #include "LinkedList.h"
+#include "Node.h"
 using namespace std;
 
 LinkedList::LinkedList() {
@@ -75,6 +79,7 @@ void LinkedList::insert(string location, int year, int month, double temperature
 
 	Node* curr = new Node(location, year, month, temperature);
 	Node* temp = head;
+	Node* tempPrev = nullptr;
 
 	if (head == nullptr && tail == nullptr) {
 		head = curr;
@@ -82,22 +87,31 @@ void LinkedList::insert(string location, int year, int month, double temperature
 		return;
 	}
 
-	// if less than temp less than curr, insert cu
-	else if (curr < temp) {
-
-
-	}
-	
-	//insert at head
-	else {
-
+	if (*curr < *temp) {
+		curr->next = temp;
+		head = curr;
+		return;
 
 	}
 
-	//while lop
-	
+	tempPrev = temp;
+	//temp = temp->next;
 
+	while (temp != nullptr) {
 
+		if (*curr < *temp) {
+
+			tempPrev->next = curr;
+			curr->next = temp;
+			return;
+		}
+		
+		tempPrev = temp;
+		temp = temp->next;
+	}
+
+	tail = curr;
+	tempPrev->next = curr;
 }	
 
 void LinkedList::clear() {
@@ -124,6 +138,16 @@ Node* LinkedList::getHead() const {
 string LinkedList::print() const {
 	string outputString;
 	// Implement this function
+	Node* temp = head->next;
+	outputString = head->data.id + " " + to_string(head->data.year) + " " + to_string(head->data.month) + " " + to_string(head->data.temperature) + "\n";
+
+	while(temp != nullptr){
+
+		outputString += temp->data.id + " " + to_string(temp->data.year) + " " + to_string(temp->data.month) + " " + to_string(temp->data.temperature) + "\n";
+		temp = temp->next;
+
+	}
+
 	return outputString;
 }
 

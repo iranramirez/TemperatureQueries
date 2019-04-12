@@ -1,7 +1,7 @@
 #ifndef TEMP_DB
 #define TEMP_DB
 
-#include <string>	//I added this
+#include <string>
 #include "LinkedList.h"
 
 class TemperatureDatabase {

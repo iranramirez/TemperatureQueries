@@ -18,7 +18,7 @@ struct TemperatureData {
 #include <string>
 
 struct TemperatureData {
-	string id;
+	std::string id;
 	int year, month;
 	double temperature;
 
@@ -30,4 +30,3 @@ struct TemperatureData {
 };
 
 #endif /* TEMPERATUREDATA */
-

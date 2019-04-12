@@ -21,7 +21,13 @@ bool TemperatureData::operator<(const TemperatureData& b) {
 
 using namespace std;
 
-TemperatureData::TemperatureData() {} //initialize everything
+TemperatureData::TemperatureData() {
+	id = "";
+	year = 1800;
+	month = 1;
+	temperature = 0;
+
+} //initialize everything
 
 TemperatureData::TemperatureData(std::string id, int year, int month, double temperature) {
 	this->id = id;
@@ -44,13 +50,9 @@ bool TemperatureData::operator<(const TemperatureData& b) {
 		return this->year < b.year;
 	
 	if (this->month != b.month)
-		return this->month < month;
+		return this->month < b.month;
 
-	if (this->temperature != b.temperature)
-		return this->temperature < b.temperature;
+	return this->temperature < b.temperature;
 
-	return false;
 }
-
-
 
