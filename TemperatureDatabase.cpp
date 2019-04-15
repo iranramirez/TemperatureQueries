@@ -1,27 +1,9 @@
-// CODE GIVEN
-/*#include "TemperatureDatabase.h"
-
-#include <fstream>
-using namespace std;
-
-// Default constructor/destructor. Modify them if you need to.
-TemperatureDatabase::TemperatureDatabase() {}
-TemperatureDatabase::~TemperatureDatabase() {}
-
-void TemperatureDatabase::loadData(const string& filename) {
-	// Implement this function for part 1
-}
-
-void TemperatureDatabase::performQuery(const string& filename) {
-	// Implement this function for part 2
-	//  Leave it blank for part 1
-} */
-
 #include "TemperatureDatabase.h"
 #include "TemperatureData.h"
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 using namespace std;
 
 // Default constructor/destructor. Modify them if you need to.
@@ -31,9 +13,12 @@ TemperatureDatabase::~TemperatureDatabase() {}
 void TemperatureDatabase::loadData(const string& filename) {
 	// Implement this function for part 1
 	
-	string id;
-	int year, month;
-	double temperature;
+	string id = "";
+	string line = "";
+	int year = 0;
+	int month = 0;;
+	double temperature = 0;
+
 
 	ifstream dataFile;
 	dataFile.open(filename);
@@ -43,43 +28,44 @@ void TemperatureDatabase::loadData(const string& filename) {
 		exit(1);
 	}
 
-	while (!dataFile.eof()) {
-
+	while (getline(dataFile,line)) {
 		//Read everything as string and convert each one to specified data type
-		dataFile >> id;
-		dataFile >> year;
-		if (dataFile.fail()) {
+		stringstream stream(line);
+
+		stream >> id;
+		stream >> year;
+		if (stream.fail()) {
 			cout << "Error: Other invalid input" << endl;
-			dataFile.clear();
 			exit(1);
 		}
 	
-		dataFile >> month;
-		if (dataFile.fail()) {
+		stream >> month;
+		if (stream.fail() || stream.eof()) {
 			cout << "Error: Other invalid input" << endl;
-			dataFile.clear();
 			exit(1);
 		}
 
-		dataFile >> temperature;
-		if (dataFile.fail()) {
+		stream >> temperature;
+		if (stream.fail()) {
 			cout << "Error: Other invalid input" << endl;
-			dataFile.clear();
 			exit(1);
 		}
 
 		if (temperature < -50 || temperature > 50) {
 			cout << "Error: Invalid temperature " << temperature << endl;
+			continue;
 		}
 
 
 		if (year > 2018 || year < 1800) {
 			cout << "Error: Invalid year " << year << endl;
+			continue;
 		}
 
 
 		if (month <= 0 || month > 12) {
 			cout << "Error: Invalid month " << month << endl;
+			continue;
 		}
 
 

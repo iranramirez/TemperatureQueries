@@ -1,54 +1,7 @@
-//GIVEN CODE
-/*
-#include <iostream>
-#include <string>
-#include "LinkedList.h"
-#include "Node.h"
-using namespace std;
-
-LinkedList::LinkedList() {
-	// Implement this function
-}
-
-LinkedList::~LinkedList() {
-	// Implement this function
-}
-
-LinkedList::LinkedList(const LinkedList& source) {
-	// Implement this function
-}
-
-LinkedList& LinkedList::operator=(const LinkedList& source) {
-	// Implement this function
-}
-
-void LinkedList::insert(string location, int year, int month, double temperature) {
-	// Implement this function
-}
-
-void LinkedList::clear() {
-	// Implement this function
-}
-
-Node* LinkedList::getHead() const {
-	// Implement this function it will be used to help grade other functions
-}
-
-string LinkedList::print() const {
-	string outputString;
-	// Implement this function
-	return outputString;
-}
-
-ostream& operator<<(ostream& os, const LinkedList& ll) {
-	//Do not modify this function 
-	os << ll.print();
-	return os;
-} */
-
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <sstream>
 #include "LinkedList.h"
 #include "Node.h"
 using namespace std;
@@ -95,8 +48,6 @@ void LinkedList::insert(string location, int year, int month, double temperature
 	}
 
 	tempPrev = temp;
-	//temp = temp->next;
-
 	while (temp != nullptr) {
 
 		if (*curr < *temp) {
@@ -139,16 +90,48 @@ string LinkedList::print() const {
 	string outputString;
 	// Implement this function
 	Node* temp = head->next;
-	outputString = head->data.id + " " + to_string(head->data.year) + " " + to_string(head->data.month) + " " + to_string(head->data.temperature) + "\n";
-
+	string curr;
+	
+	curr = manip(head);
+	
+	outputString = head->data.id + " " + to_string(head->data.year) + " " + to_string(head->data.month) + " " + curr + "\n";
 	while(temp != nullptr){
+		
+	    curr = manip(temp);
 
-		outputString += temp->data.id + " " + to_string(temp->data.year) + " " + to_string(temp->data.month) + " " + to_string(temp->data.temperature) + "\n";
+		outputString += temp->data.id + " " + to_string(temp->data.year) + " " + to_string(temp->data.month) + " " + curr + "\n";
 		temp = temp->next;
 
 	}
 
 	return outputString;
+}
+
+string LinkedList::manip(Node* node) const {
+
+	stringstream ss;
+	string curr;
+	int numTemp = 0;
+
+	ss << fixed << setprecision(1) << node->data.temperature;
+	curr = ss.str();
+
+	for(int i = 0; i < curr.length(); i++) {
+        if(curr[i] == '.'){
+            if(curr[i + 1] == '0'){
+                numTemp = stoi(curr);
+                ss.str("");
+                ss.clear();
+                ss << numTemp;
+            }
+            else
+                break;
+            
+        }
+    }
+
+    return ss.str();
+
 }
 
 ostream& operator<<(ostream& os, const LinkedList& ll) {
