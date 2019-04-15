@@ -51,6 +51,9 @@ void TemperatureDatabase::loadData(const string& filename) {
 			exit(1);
 		}
 
+		if(temperature == -99.99)
+			continue;
+
 		if (temperature < -50 || temperature > 50) {
 			cout << "Error: Invalid temperature " << temperature << endl;
 			continue;
