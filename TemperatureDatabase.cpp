@@ -10,6 +10,17 @@ using namespace std;
 TemperatureDatabase::TemperatureDatabase() {}
 TemperatureDatabase::~TemperatureDatabase() {}
 
+int TemperatureDatabase::countEntries(std::string entry) {
+	int count = 0;
+
+	for(int i = 0; i < entry.length(); i++){
+		if(entry[i] == ' ') {
+			count++;
+		}
+	}
+	return count;
+}
+
 void TemperatureDatabase::loadData(const string& filename) {
 	// Implement this function for part 1
 	
@@ -31,6 +42,15 @@ void TemperatureDatabase::loadData(const string& filename) {
 	while (getline(dataFile,line)) {
 		//Read everything as string and convert each one to specified data type
 		stringstream stream(line);
+		int count = 0;
+	
+		count = countEntries(line);
+
+		if (count != 3) {
+			cout << "Error: Other invalid input" << endl;
+			cout << "Hey entry" << endl;
+			continue;
+		}
 
 		stream >> id;
 		stream >> year;
@@ -38,18 +58,20 @@ void TemperatureDatabase::loadData(const string& filename) {
 			cout << "Error: Other invalid input" << endl;
 			exit(1);
 		}
-	
-		stream >> month;
-		if (stream.fail() || stream.eof()) {
+
+		 stream >> month;
+		 if (stream.fail()) {
+			cout << "Error: Other invalid input" << endl;
+			cout << "Hey month" << endl;
+			exit(1);
+		}
+
+		 stream >> temperature;
+		 if (stream.fail()) {
 			cout << "Error: Other invalid input" << endl;
 			exit(1);
 		}
 
-		stream >> temperature;
-		if (stream.fail()) {
-			cout << "Error: Other invalid input" << endl;
-			exit(1);
-		}
 
 		if(temperature == -99.99)
 			continue;

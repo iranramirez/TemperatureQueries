@@ -18,6 +18,7 @@ public:
 	// Read the queries from the query file and perform a series of queries
 	// Implement for Part 2
 	void performQuery(const std::string& query_filename);
+	int countEntries(std::string entry);
 
 private:
 	// Linked list to store the temperature records. You need to properly populate
