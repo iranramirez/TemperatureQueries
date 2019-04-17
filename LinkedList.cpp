@@ -6,12 +6,13 @@
 #include "Node.h"
 using namespace std;
 
-LinkedList::LinkedList() {
+//When no parameters are put into our LinkedList constructor
+//default constructor initializes empty LinkedList
+LinkedList::LinkedList() : head(nullptr), tail(nullptr) {
 	// Implement this function
-	head = nullptr;
-	tail = nullptr;
 }
 
+//Deconstructor that clears our LinkedList
 LinkedList::~LinkedList() {
 	// Implement this function
 	clear();
@@ -27,111 +28,91 @@ LinkedList& LinkedList::operator=(const LinkedList& source) {
 	return temp; // Need fix... temp line
 }
 
+//Inserts Node into linked list in order by id, year, month, then temperature
+//Creates first node(head), inserts at front of linked list, in between Nodes, and
+//at tail if need be
 void LinkedList::insert(string location, int year, int month, double temperature) {
 	// Implement this function
-
 	Node* curr = new Node(location, year, month, temperature);
 	Node* temp = head;
-	Node* tempPrev = nullptr;
+	Node* tempPrev = head;
 
 	if (head == nullptr && tail == nullptr) {
 		head = curr;
 		tail = curr;
 		return;
-	}
-
+	} 
 	if (*curr < *temp) {
 		curr->next = temp;
 		head = curr;
 		return;
-
 	}
-
-	tempPrev = temp;
+	temp = temp->next;
 	while (temp != nullptr) {
-
 		if (*curr < *temp) {
-
 			tempPrev->next = curr;
 			curr->next = temp;
 			return;
 		}
-		
 		tempPrev = temp;
 		temp = temp->next;
 	}
-
 	tail = curr;
 	tempPrev->next = curr;
 }	
 
+//Traverses Linked List, deletes head, keeps on making next node the head
+//and keeps deleting head until nullptr is reached. Then makes sure empty list
 void LinkedList::clear() {
 	// Implement this function
 	Node* temp;
 
 	while (head != nullptr) {
-
 		temp = head->next;
 		delete head;
 		head = temp;
-
 	}
-
 	head = nullptr;
 	tail = nullptr;
 }
 
+//Returns head address
 Node* LinkedList::getHead() const {
 	// Implement this function it will be used to help grade other functions
 	return head; 
 }
 
+//Prints LinkedList in order by printing out head node then traversing through
+//linked list and prints data in each node until nullptr is reached
 string LinkedList::print() const {
-	string outputString;
+	string outputString = "", curr = "";
 	// Implement this function
 	Node* temp = head->next;
-	string curr;
 	
 	curr = manip(head);
-	
-	outputString = head->data.id + " " + to_string(head->data.year) + " " + to_string(head->data.month) + " " + curr + "\n";
+	outputString = head->data.id + " " + to_string(head->data.year);
+	outputString += " " + to_string(head->data.month) + " " + curr + "\n";
 	while(temp != nullptr){
-		
 	    curr = manip(temp);
-
-		outputString += temp->data.id + " " + to_string(temp->data.year) + " " + to_string(temp->data.month) + " " + curr + "\n";
+		outputString += temp->data.id + " " + to_string(temp->data.year);
+		outputString += " " + to_string(temp->data.month) + " " + curr + "\n";
 		temp = temp->next;
-
 	}
-
 	return outputString;
 }
 
+//Manipulates the printed temperature in print method
 string LinkedList::manip(Node* node) const {
-
 	stringstream ss;
-	string curr;
-	int numTemp = 0;
-
-	ss << fixed << setprecision(1) << node->data.temperature;
-	curr = ss.str();
-
-	for(int i = 0; i < curr.length(); i++) {
-        if(curr[i] == '.'){
-            if(curr[i + 1] == '0'){
-                numTemp = stoi(curr);
-                ss.str("");
-                ss.clear();
-                ss << numTemp;
-            }
-            else
-                break;
-            
-        }
-    }
-
+    double temp = 0;
+    int dtoi = node->data.temperature;
+    
+    temp = (node->data.temperature) - dtoi;
+    if(temp == 0)
+        ss << dtoi;
+    else
+        ss << fixed << setprecision(1) << node->data.temperature;
     return ss.str();
-
 }
 
 ostream& operator<<(ostream& os, const LinkedList& ll) {
