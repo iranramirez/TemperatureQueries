@@ -27,15 +27,14 @@ public:
 
 	// The functions below are written already. Do not modify them.
 	std::string print() const;
-
 	Node* getHead() const;
-
 	std::string manip(Node* temp) const;
+	double average(std::string id, int year, int yearTwo);
+	int mode(std::string id, int year, int yearTwo);
 
 private:
 	Node* head;
 	Node* tail;
-
 	// You can add any private member variables/functions you feel useful in this class.
 
 };

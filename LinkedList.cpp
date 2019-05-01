@@ -2,6 +2,7 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
+#include <cmath>
 #include "LinkedList.h"
 #include "Node.h"
 using namespace std;
@@ -113,6 +114,67 @@ string LinkedList::manip(Node* node) const {
     else
         ss << fixed << setprecision(1) << node->data.temperature;
     return ss.str();
+}
+
+//Calculates Average of Query by the given City ID and Year Range by Finding start of Range
+//Adding each temperature for each node within range and keeping count of the number
+//of the total nodes within range... Sum of Temperatures / Total Nodes within Range
+//Also if Range not found it will return -99.99, which will write "unknown" to our output file
+double LinkedList::average(string id, int year, int yearTwo){
+	Node* curr = head;
+	double sum = 0.00;
+	int count = 0;
+	while (curr != nullptr) {
+		if (curr->data.id == id && curr->data.year >= year && curr->data.year <= yearTwo)
+			break;
+		curr = curr->next;
+	}
+	if (curr == nullptr)
+		return -99.99;
+	while (curr != nullptr && curr->data.id == id && curr->data.year <= yearTwo) {
+		count++;
+		sum += curr->data.temperature;
+		curr = curr->next;
+	}
+	return (sum / count);
+}
+
+//Calculates the Mode of Query by the given City ID and Year Range by finding the start of the range
+//The initialized array symbolizes -50 to 50, the valid temperatures, or 0 to 100 for a total of 101 elements
+//Every time a temperature is found it is rounded and turned into an integer that value will be an element in the
+//array. Once found it will increment that element everytime it is found. We then search the array for the max
+//number occured. We then return that element number that has the largest integer. Tiebreakers are resolved by using
+//"max <= arr[i]" because the array is in order from 0 to 101. We then either subtract 50 if the element is 
+//number 49 or greater or add 50 if it is less than 49.
+int LinkedList::mode(string id, int year, int yearTwo){
+	Node* curr = head;
+	int arr[101];
+	int max = 0, index = 0, count = 0;
+	for(int i = 0; i<100; i++) {
+		arr[i] = 0;
+	}
+	while (curr != nullptr) {
+		if (curr->data.id == id && curr->data.year >= year && curr->data.year <= yearTwo)
+			break;
+		curr = curr->next;
+	}
+	if (curr == nullptr)
+		return -99;
+	while (curr != nullptr && curr->data.id == id && curr->data.year <= yearTwo) {
+		int i = round(curr->data.temperature) + 50;
+		arr[i]++;
+		curr = curr->next;
+	}
+	for(int i = 0; i<100; i++) {
+		if (max <= arr[i]) {
+			max = arr[i];
+			index = i;
+		}
+	}
+	if (index < 49)
+		return index + 50;
+	else
+		return index - 50;
 }
 
 ostream& operator<<(ostream& os, const LinkedList& ll) {
